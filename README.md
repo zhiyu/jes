@@ -1,6 +1,6 @@
 ### About
 
-a javascript template engine for nodejs.
+jes is a javascript template engine for nodejs.
 
 ### Installation
 
