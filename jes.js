@@ -1,16 +1,6 @@
 var jes = module.exports = {}
 
 jes.compile = function (tpl, options) {
-	var start  = "<%";
-	var end    = "%>";
-	var output = "<%-";
-	var escape = "<%=";
-	var starts = [];
-	var ends   = [];
-	var tmp    = [];
-	var index  = 0;
-    var cursor = 0;
-    var seg    = "";
     var lines  = [];
     
     var splits = tpl.match(/<%[-*|=*]*|%>/g);
@@ -25,7 +15,6 @@ jes.compile = function (tpl, options) {
     	}
     }
     
-    console.log(lines);
     for(var i = 0; i < splits.length; i++){
     	var line = '';
     	var split     = splits[i];
