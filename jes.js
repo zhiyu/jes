@@ -1,6 +1,6 @@
-var path = require('path')
+var path = require('path');
 
-var jes = module.exports = {}
+var jes = module.exports = {};
 
 jes.compile = function (tpl, options, file) {
     var splits = tpl.match(/<%[-*|=*]*|%>/g);
@@ -13,21 +13,18 @@ jes.compile = function (tpl, options, file) {
     for(var i = 0; i < splits.length; i++){
         var line = '';
         var split     = splits[i];
-
         var splitNext = null;
         if(i < splits.length - 1){
             splitNext = splits[i+1]
         }
-
         var idx = tpl.indexOf(split);
         var idxNext = idx;
         if(splitNext != null){
             idxNext = tpl.indexOf(splitNext);
         } 
-        
         line = JSON.stringify(tpl.slice(0, idx));
         lines.push("s.push("+line+");");
-        
+
         if(split == "<%"){
             line = tpl.slice(idx + split.length, idxNext);
             if(line.indexOf('include') != -1){
@@ -52,7 +49,6 @@ jes.compile = function (tpl, options, file) {
         i++;
         tpl = tpl.slice(idxNext+splitNext.length, tpl.length);
     }
-
     line = JSON.stringify(tpl);
     lines.push("s.push("+line+");");
     lines.push("return s.join('');}"); 
@@ -65,9 +61,7 @@ jes.renderFile = function(file, options, cb){
     try{
         var s = fs.readFileSync(file, 'utf8');
         cb(null, jes.compile(s, options, file));
-    }catch(e){
-        cb(e);
-    }
+    }catch(e){ cb(e); }
 }
 
 jes.escape = function(str){
