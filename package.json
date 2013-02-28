@@ -1,6 +1,6 @@
 {
   "name": "jes",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "javascript template engine",
   "homepage": "http://github.com/zhiyu/jes",
   "keywords": [
@@ -23,9 +23,6 @@
   },
   "devDependencies": {},
   "main": "jes",
-  "bin"        : {
-    "jes": "./bin/jes"
-  },
   "engines": {
     "node": ">= 0.5.0"
   }
