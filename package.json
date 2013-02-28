@@ -1,0 +1,32 @@
+{
+  "name": "jes",
+  "version": "0.1.0",
+  "description": "javascript template engine",
+  "homepage": "http://github.com/zhiyu/jes",
+  "keywords": [
+    "template",
+    "engine",
+    "jes"
+  ],
+  "author": {
+    "name": "zhiyu zheng",
+    "email": "zhengzhiyu@yeah.net",
+    "url": "http://github.com/zhiyu"
+  },
+  "contributors": [
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zhiyu/jes.git"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "main": "jes",
+  "bin"        : {
+    "jes": "./bin/jes"
+  },
+  "engines": {
+    "node": ">= 0.5.0"
+  }
+}
