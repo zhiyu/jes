@@ -2,7 +2,7 @@ var jes = require('./jes');
 var path = require('path');
 
 jes.renderFile(
-   path.dirname(__filename)+"/demo/layout.jes", 
+   path.dirname(__filename)+"/demo/dd/layout.jes", 
    {
      title:'JES', 
      body:'Welcome to jes!', 

@@ -59,9 +59,11 @@ by default, cache is enabled. you can change it explicitly:
     
     jes.cache = false
 
-### Include File
-
-    <% include header%>
+### Including file
+    
+'.jes' is the default file extension, you can rename it as free.
+    
+    <% include header.jes %>
 
 ###The MIT License
 
