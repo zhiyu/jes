@@ -1,4 +1,18 @@
 var jes = require('./jes');
+var path = require('path');
 
-var str = jes.compile("<div><%=hello%></div>",{hello:'world'});
-console.log(str);
+jes.renderFile(
+   path.dirname(__filename)+"/demo/layout.jes", 
+   {
+     title:'JES', 
+     body:'Welcome to jes!', 
+     copyright:'copyright 2012'
+   },
+   function(err, data){
+       if(err){
+           console.log(err);
+       }else{
+           console.log(data);
+       }
+   }
+);

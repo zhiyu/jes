@@ -8,11 +8,60 @@ jes is a javascript template engine for nodejs.
 
 ### Usage
     
-    jes.compile(str, options)
+layout.jes
 
-or
+    <div>
+        <% include header.jes %>
+        <%-body%>
+        <% include footer.jes %>
+    </div>
+
+header.jes
+
+    <div><%-title%></div>
     
-    jes.renderFile(file, options)        
+footer.jes
+
+    <div><%-copyright%></div>
+    
+run
+
+    jes.renderFile('layout.jes', 
+       {
+         title:'JES', 
+         body:'Welcome to jes!', 
+         copyright:'copyright 2012'
+       },
+       function(err, data){
+           if(err){
+               console.log(err);
+           }else{
+               console.log(data);
+           }
+       }
+    );
+        
+### API
+    
+    jes.compile(str, options); //return Function object
+    
+or
+
+    jes.render(str, options);  //return String
+  
+or
+   
+    jes.renderFile(file, options, cb); 
+
+### Cache
+
+by default, cache is enabled. you can change it explicitly:
+    
+    jes.cache = false
+
+### Include File
+
+    <% include header%>
 
 ###The MIT License
 

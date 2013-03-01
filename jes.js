@@ -1,13 +1,21 @@
 var path = require('path');
+var fs = require('fs');
 
-var jes = module.exports = {};
+var jes = module.exports = {
+    cache : true,
+    caches : {}
+};
 
-jes.compile = function (tpl, options, file) {
+jes.compile = function (tpl, options) {
+    var file = options.jes_file;
     var splits = tpl.match(/<%[-*|=*]*|%>/g);
+
+    //no need to parse
     if(splits == null){
         return tpl;
     }
 
+    //parse template
     var lines  = [];
     lines.push("var s = [];with(options){");
     for(var i = 0; i < splits.length; i++){
@@ -28,7 +36,7 @@ jes.compile = function (tpl, options, file) {
         if(split == "<%"){
             line = tpl.slice(idx + split.length, idxNext);
             if(line.indexOf('include') != -1){
-                jes.renderFile(path.dirname(file)+"/"+line.trim().slice(8)+".ejs", options, function(err, data){
+                jes.renderFile(path.dirname(file)+"/"+line.trim().slice(8), options, function(err, data){
                     if(err){
                         lines.push("s.push("+JSON.stringify(err.toString())+");");
                     }else{
@@ -52,15 +60,43 @@ jes.compile = function (tpl, options, file) {
     line = JSON.stringify(tpl);
     lines.push("s.push("+line+");");
     lines.push("return s.join('');}"); 
-    var str = new Function('options, escape', lines.join(''))(options, jes.escape);  
-    return str;
+    return new Function('options, escape', lines.join(''));
+}
+
+jes.render = function(str, options){
+    var obj = jes.compile(str, options);
+    
+    var file = options.jes_file;
+    //cache
+    if(file){
+        jes.caches[file] = obj;
+    }
+
+    if(typeof obj == 'string'){
+        return obj;
+    }else{
+        return obj(options, jes.escape);
+    }
 }
 
 jes.renderFile = function(file, options, cb){
-    var fs = require('fs');
+    options.jes_file = file;
     try{
-        var s = fs.readFileSync(file, 'utf8');
-        cb(null, jes.compile(s, options, file));
+        //check cache
+        if(jes.cache && jes.caches[file]){
+            var obj = jes.caches[file];
+            if(obj){
+                if(typeof obj == 'string'){
+                    cb(null, obj);
+                }else{
+                    cb(null, obj(options, jes.escape));
+                }
+            }
+        }else{
+            var str = fs.readFileSync(file, 'utf8');
+
+            cb(null, jes.render(str, options));
+        }
     }catch(e){ cb(e); }
 }
 
